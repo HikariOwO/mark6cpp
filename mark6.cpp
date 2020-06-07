@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 using namespace std;
+
 void RNGnum(){
     int CPUnum[8];
     srand(time(NULL));
@@ -19,6 +20,7 @@ void RNGnum(){
     }
     cout << "特別號碼:" << CPUnum[7] << "\n";
 }
+
 void RNGUserNum(){
     srand(8745);
     int UserChoice[8];
@@ -35,6 +37,7 @@ void RNGUserNum(){
     }
     cout << "你的特別號碼: " << UserChoice[7] << "\n";
 }
+
 void UserInputNum(){
     int UserInChoice[8];
     int a,b,c,d,e,f,g;
