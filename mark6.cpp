@@ -59,11 +59,12 @@ int main(){
     string UserInput;
     int score;
     int money = 1000;
-    int normalmatch, specialmatch, matchnum[7];
+    int OriMoney = 1000;
+    int normalmatch, specialmatch,winorlose;
     do{
     cout << "開始遊玩的填寫「y」" << endl << "不想遊玩的填寫「n」";
     cout << "目前你有的金錢: HKD$" << money << endl << "每次將會扣除$50" << endl;
-    cout << "請輸入「y」來決定";
+    cout << "請輸入「y」或 「n」來決定";
     cin >> UserInput;
     if (UserInput == "y" or UserInput == "Y"){
         UserInputNum();
@@ -133,16 +134,31 @@ int main(){
             default:
             cout << "沒中獎再來一單吧" <<  endl;
         }
-        cout << "目前餘額: HKD$" << money << endl;
+        cout << "目前餘額: HKD$" << money << endl << endl;
     }
     if (money < 50) {
         cout << "唷齁沒錢了喔 沒錢就不要學人來玩啦" << endl;
         return 0;
     }
     } while (UserInput == "y" or UserInput == "Y");
+
     if (UserInput == "n") {
             cout << "下一次再來玩吧" << endl;
-            return 0;
+            cout << "這一次的戰績: ";
+            winorlose = OriMoney - money;
+            if (winorlose > 0 ){
+                cout << "輸了HKD$" << winorlose << endl;
+                return 0;
+            }
+            if (winorlose < 0){
+                winorlose = winorlose*-1;
+                cout << "贏了HKD$" << winorlose << endl;
+                return 0;  
+            }
+            if (winorlose == 0){
+                cout << "居然沒輸欸 也沒有贏" << endl;
+                return 0;
+            }
         }
     return 0;
 }
