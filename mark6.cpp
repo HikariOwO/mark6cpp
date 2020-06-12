@@ -1,74 +1,148 @@
 #include <iostream>
 #include <random>
-#include <stdlib.h>
 #include <time.h>
+
 using namespace std;
+int CPUnum[7],CPUsNum;
+int UserChoice[7],UserSChoice;
+int UserInChoice[7],UserInSChoice;
+int a,b,c,d,e,f,g;
+int a1,b1,c1,d1,e1,f1,g1;
 
 void RNGnum(){
-    int CPUnum[8];
-    srand(time(NULL));
-    CPUnum[1] = rand() % 49+1;
-    CPUnum[2] = rand() % 49+1;
-    CPUnum[3] = rand() % 49+1;
-    CPUnum[4] = rand() % 49+1;
-    CPUnum[5] = rand() % 49+1;
-    CPUnum[6] = rand() % 49+1;
-    CPUnum[7] = rand() % 49+1;
+    do{
+        a1 = rand() % 49+1;
+        b1 = rand() % 49+1;
+        c1 = rand() % 49+1;
+        d1 = rand() % 49+1;
+        e1 = rand() % 49+1;
+        f1 = rand() % 49+1;
+        g1 = rand() % 49+1;
+    } while (a1 == b1 || b1 == c1 || c1 == d1 || d1 == e1 || f1 == g1|| g1 == a1|| a1 == c1 || a1 == d1 || a1 == e1 || a1 == f1 || a1 == g1 || b1 == d1 || b1 == e1 || b1 == f1 || b1 == g1|| c1 == e1 || c1 == f1 || c1 == g1 || d1 == f1 || d1 == g1|| e1 == g1);
+    CPUnum[1] = a1;
+    CPUnum[2] = b1;
+    CPUnum[3] = c1;
+    CPUnum[4] = d1;
+    CPUnum[5] = e1;
+    CPUnum[6] = f1;
+    CPUsNum = g1;
     cout << "開獎號碼: ";
     for (int i = 1; i < 7; i++){
         cout << CPUnum[i] << " ";
     }
-    cout << "特別號碼:" << CPUnum[7] << "\n";
+    cout << "特別號碼:" << CPUsNum << "\n";
 }
 
-void RNGUserNum(){
-    srand(8745);
-    int UserChoice[8];
-    UserChoice[1] = rand() % 49+1;
-    UserChoice[2] = rand() % 49+1;
-    UserChoice[3] = rand() % 49+1;
-    UserChoice[4] = rand() % 49+1;
-    UserChoice[5] = rand() % 49+1;
-    UserChoice[6] = rand() % 49+1;
-    UserChoice[7] = rand() % 49+1;
-    cout << "你的號碼: ";
-    for (int i = 1; i < 7; i++){
-        cout << UserChoice [i] << " ";
-    }
-    cout << "你的特別號碼: " << UserChoice[7] << "\n";
-}
 
 void UserInputNum(){
-    int UserInChoice[8];
-    int a,b,c,d,e,f,g;
     do{
         cout << "請填寫你要的號碼 (49以內的數字): ";
         cin >> a >> b >> c >> d >> e >> f >> g;
     } while(a > 49 || b > 49 || c > 49 || d > 49 || e > 49 || f > 49 || g > 49);
-    a = UserInChoice[0];
-    b = UserInChoice[1];
-    c = UserInChoice[2];
-    d = UserInChoice[3];
-    e = UserInChoice[4];
-    f = UserInChoice[5];
-    g = UserInChoice[6];
+    UserInChoice[0] = a;
+    UserInChoice[1] = b;
+    UserInChoice[2] = c;
+    UserInChoice[3] = d;
+    UserInChoice[4] = e;
+    UserInChoice[5] = f;
+    UserInSChoice = g;
     cout << "你的號碼: ";
-    for (int i = 0; i < 7; i++){
+    for (int i = 0; i < 6; i++){
         cout << UserInChoice[i] << " " ;
     }
-    cout << "你的特別號碼: " << UserInChoice[6] << "\n";
+    cout << "你的特別號碼: " << UserInSChoice << "\n";
 }
 
+
 int main(){
-    int UserInput;
-    cout << "請選擇你要電腦獲取號碼還是人手填寫?\n人手填寫為1\n電腦填寫為2\n";
+    srand(time(NULL));
+    string UserInput;
+    int score;
+    int money = 1000;
+    int normalmatch, specialmatch, matchnum[7];
+    do{
+    cout << "開始遊玩的填寫「y」" << endl << "不想遊玩的填寫「n」";
+    cout << "目前你有的金錢: HKD$" << money << endl << "每次將會扣除$50" << endl;
+    cout << "請輸入「y」來決定";
     cin >> UserInput;
-    if (UserInput == 1){
+    if (UserInput == "y" or UserInput == "Y"){
         UserInputNum();
+        RNGnum();
+        sort(UserInChoice, UserInChoice+6);
+        sort(CPUnum, CPUnum+6);
+        money = money - 50;
+        for (int i = 0; i != 6; i++) {
+            for (int j = 0; j != 7; j++) {
+                if (UserInChoice[i] == CPUnum[j]) {
+                    normalmatch++;
+                }
+            }
+        }  
+
+        cout <<"你中了" << normalmatch << "個普通號碼" << endl;
+
+        if (UserInSChoice == CPUsNum){
+            cout << "你中了特別號碼";
+            specialmatch++;
+            cout <<"你中了" << normalmatch << "個普通號碼" << "加1個特別號碼" << endl;
+        } 
+
+        score = normalmatch*2 + specialmatch;
+
+        switch(score){
+            case 13: //7個號碼全中
+            money = money + 80000000;
+            cout << "恭喜你中頭獎" << endl;
+            break;
+
+            case 12: //6個普通號碼中
+            money = money + 50000000;
+            cout << "恭喜你中頭獎" << endl;
+            break;
+
+            case 11: //5個普通+1個特別
+            money = money + 1500000;
+            cout << "恭喜你中二獎" << endl;
+            break;
+
+            case 10: //5個普通
+            money = money + 100000;
+            cout << "恭喜你中三獎" << endl;
+            break;
+
+            case 9: //4個普通+特別
+            money = money + 10000;
+            cout << "恭喜你中四獎" << endl;
+            break;
+
+            case 8: //4個普通
+            money = money + 640;
+            cout << "恭喜你中五獎" << endl;
+            break;
+
+            case 7: //3個普通+特別
+            money = money + 320;
+            cout << "恭喜你中六獎"<< endl;
+            break;
+
+            case 6: //3個普通
+            money = money + 40;
+            cout << "恭喜你中七獎" << endl;
+            break;
+
+            default:
+            cout << "沒中獎再來一單吧" <<  endl;
+        }
+        cout << "目前餘額: HKD$" << money << endl;
     }
-    if (UserInput == 2){
-        RNGUserNum();
+    if (money < 50) {
+        cout << "唷齁沒錢了喔 沒錢就不要學人來玩啦" << endl;
+        return 0;
     }
-    RNGnum();
+    } while (UserInput == "y" or UserInput == "Y");
+    if (UserInput == "n") {
+            cout << "下一次再來玩吧" << endl;
+            return 0;
+        }
     return 0;
 }
